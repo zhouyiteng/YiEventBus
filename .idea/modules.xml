@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/YiEventBus.iml" filepath="$PROJECT_DIR$/YiEventBus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/YiEventBus.iml" filepath="$PROJECT_DIR$/YiEventBus.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/yibus/yibus.iml" filepath="$PROJECT_DIR$/yibus/yibus.iml" />
     </modules>
   </component>
 </project>
