@@ -22,5 +22,33 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0-beta1'
-    compile 'xiaofei.library:hermes-eventbus:0.1.0'
 }
+
+ext {
+    bintrayRepo = 'maven'////bintray上的仓库名，一般为maven
+    bintrayName = 'yibus'//bintray上的项目名
+
+    publishedGroupId = 'yiteng.libs'//JCenter的GroupId
+    artifact = 'yibus'//JCenter的ArtifactId
+
+    siteUrl = 'https://github.com/zhouyiteng/YiEventBus'
+    gitUrl = 'https://github.com/zhouyiteng/YiEventBus.git'
+
+    libraryVersion = '1.0.0'//版本号
+    libraryName = 'yibus'//项目名字，没什么用
+    libraryDescription = 'A Eventbus like lib'//项目描述，没什么用
+
+    //开发者信息
+    developerId = 'yiteng.zhou'
+    developerName = 'yiteng.zhou'
+    developerEmail = 'zyt2138@163.com'
+
+    //以上所有信息自行修改，以下不变
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from:'https://cdn.rawgit.com/Jude95/JCenter/master/install.gradle'
+apply from:'https://cdn.rawgit.com/Jude95/JCenter/master/bintray.gradle'
