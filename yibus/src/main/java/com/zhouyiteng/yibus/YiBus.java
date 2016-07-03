@@ -18,10 +18,16 @@ public class YiBus {
 
     private static YiBus defaultInstace;
 
+    //缓存订阅者对象的onEvent方法
     private static Map<String, List<Method>> methodCache = new HashMap<>();
 
+    //按EventType类型保存订阅者对象
     private final Map<Class<?>, List<Subscription>> subcriptionsByEventType;
+
+    //保存每个订阅者对象所订阅的事件类型
     private final Map<Object, List<Class<?>>> typesBySubscriber;
+
+    //ThreadLocal对象。PostQueue
     private final ThreadLocal<List<Subscription>> postQueue = new ThreadLocal<List<Subscription>>(){
         protected List<Subscription> initialValue() {
             return new ArrayList<>();
@@ -54,6 +60,41 @@ public class YiBus {
             Class<?> eventType = method.getParameterTypes()[0];
             subscribe(subscriber,method,eventType);
         }
+    }
+
+    public void register(Object subscriber, Class<?> eventType, Class<?>... moreEventTypes){
+        register(subscriber, defaultMethodName, eventType, moreEventTypes);
+    }
+
+    public void register(Object subscriber, String defaultMethodName, Class<?> eventType, Class<?>[] moreEventTypes) {
+        Class<?> subscriberClass = subscriber.getClass();
+        Method method = findSubscriberMethods(subscriberClass,defaultMethodName,eventType);
+
+        subscribe(subscriber,method,eventType);
+
+        for (Class<?> anotherEventType : moreEventTypes) {
+            method = findSubscriberMethods(subscriberClass,defaultMethodName,anotherEventType);
+            subscribe(subscriber,method,anotherEventType);
+        }
+
+    }
+
+    /**
+     *
+     * Android2.3 getMethod方法执行速度慢,使用getDeclaredMethod
+     *
+     */
+    private Method findSubscriberMethods(Class<?> subscriberClass, String defaultMethodName, Class<?> eventType) {
+        Class<?> clazz = subscriberClass;
+        while (clazz != null) {
+            try {
+                return subscriberClass.getDeclaredMethod(defaultMethodName,eventType);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            clazz = clazz.getSuperclass();
+        }
+        throw (new RuntimeException("订阅对象没有指定的方法!"));
     }
 
     //当前子类重载父类的methodName方法,返回所有类的methodName方法
@@ -147,6 +188,20 @@ public class YiBus {
 
     }
 
+    public synchronized void unregister(Object subscriber, Class<?>... eventTypes) {
+        if (eventTypes.length == 0) {
+            throw new RuntimeException("必须提供至少一个EventTytp 类型");
+        }
+
+        List<Class<?>> subscribedClasses = typesBySubscriber.get(subscriber);
+        if (subscribedClasses != null && !subscribedClasses.isEmpty()) {
+            for (Class<?> eventType : eventTypes) {
+                unsubscribedByEventType(subscriber,eventType);
+                subscribedClasses.remove(eventType);
+            }
+        }
+    }
+
     private void unsubscribedByEventType(Object subscriber, Class<?> eventType) {
         //获取当前注册该EventType的所有Subscription对象
         List<Subscription> subscriptions = subcriptionsByEventType.get(eventType);
@@ -179,7 +234,8 @@ public class YiBus {
         }
 
         if (subscriptions.isEmpty()) {
-            Log.w(TAG,"当前没有对象注册该对象");
+            System.out.println("当前没有对象注册该Event");
+            Log.w(TAG,"当前没有对象注册该Event");
         } else {
             for (Subscription subscription : subscriptions) {
                 postToSubscribtion(subscription, event);
