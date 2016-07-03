@@ -9,4 +9,4 @@ My Event Bus
 
 Gradle
 
-compile 'yiteng.libs:yibus:1.0.0'
+compile 'yiteng.libs:yibus:1.0.1'
