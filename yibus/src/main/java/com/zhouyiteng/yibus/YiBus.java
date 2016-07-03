@@ -207,13 +207,22 @@ public class YiBus {
         List<Subscription> subscriptions = subcriptionsByEventType.get(eventType);
 
         //查找当前subscriber对象并删除
-        if (subscriptions != null && !subscriptions.isEmpty()) {
-            for (Subscription subscription : subscriptions) {
-                if (subscription.equals(subscriber)) {
-                    subscriptions.remove(subscription);
-                }
+        int size = subscriptions.size();
+        for (int i = 0; i < size; i++) {
+            if (subscriptions.get(i).subscriber == subscriber) {
+                subscriptions.remove(i);
+                i--;
+                size --;
             }
         }
+        
+//        if (subscriptions != null && !subscriptions.isEmpty()) {
+//            for (Subscription subscription : subscriptions) {
+//                if (subscription.subscriber == subscriber) {
+//                    subscriptions.remove(subscription);
+//                }
+//            }
+//        }
     }
 
     public void post(Object event) {
