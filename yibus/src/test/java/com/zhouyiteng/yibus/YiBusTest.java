@@ -61,6 +61,16 @@ public class YiBusTest extends TestCase{
         yiBus.register(testActvity,String.class);
     }
 
+    public void testUnregister(){
+        TestActvity testActvity = new TestActvity();
+        String event = "hello";
+        yiBus.register(testActvity,String.class);
+        yiBus.post(event);
+        assertEquals(event,testActvity.lastStringEvent);
+        yiBus.unregister(testActvity,String.class);
+        yiBus.post(event);
+    }
+
     static class TestActvity extends Activity {
         public String lastStringEvent;
 
