@@ -9,4 +9,8 @@ My Event Bus
 
 Gradle
 
-compile 'yiteng.libs:yibus:1.0.1'
+compile 'yiteng.libs:yibus:1.0.2'
+
+1.0.2 更新说明
+添加register时ThreadMode参数，具体使用如下：
+YiBus.getDefault().register(this, ThreadMode.InMainThread);
