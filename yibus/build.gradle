@@ -10,7 +10,7 @@ ext {
     siteUrl = 'https://github.com/zhouyiteng/YiEventBus'
     gitUrl = 'https://github.com/zhouyiteng/YiEventBus.git'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = '1.0.2'
     libraryName = 'yibus'
     libraryDescription = 'A Eventbus like lib'
 

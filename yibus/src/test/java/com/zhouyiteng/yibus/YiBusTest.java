@@ -1,82 +1,66 @@
 package com.zhouyiteng.yibus;
 
-import android.app.Activity;
-
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
- * Created by zhouyiteng on 16/7/3.
+ * Created by zhouyiteng on 16/7/10.
  */
-public class YiBusTest extends TestCase{
-    private YiBus yiBus;
-    private String lastStringEvent;
-    private String countStringEvent;
-    private int countIntEvent;
-    private int lastIntEvent;
+public class YiBusTest {
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        yiBus = YiBus.getDefault();
+    @Before
+    public void setUp() throws Exception {
+
     }
 
-    public void testRegisterForEventClassAndPost() throws InterruptedException {
-        TestActvity actvity = new TestActvity();
-        String event = "hello";
+    @After
+    public void tearDown() throws Exception {
 
-        long start = System.currentTimeMillis();
-
-        yiBus.register(actvity,String.class);
-        long time = System.currentTimeMillis() - start;
-        System.out.println(time);
-        yiBus.post(event);
-
-        assertEquals(event,actvity.lastStringEvent);
     }
 
-    public void testRegisterForAndPost() {
-        TestActvity testActvity = new TestActvity();
-        String event = "Hello";
+    @Test
+    public void testRegister() throws Exception {
 
-        long start = System.currentTimeMillis();
-        yiBus.register(testActvity);
-        long time = System.currentTimeMillis() - start;
-        System.out.println(time);
-        yiBus.post(event);
-
-        assertEquals(event,testActvity.lastStringEvent);
     }
 
-    public void testPostwithoutRegister() {
-        yiBus.post("hello");
+    @Test
+    public void testRegister1() throws Exception {
+
     }
 
-    public void testUnRegisterWithoutRegister() {
-        yiBus.unregister(this);
-        yiBus.unregister(this,String.class);
+    @Test
+    public void testRegister2() throws Exception {
+
     }
 
-    public void testRegisterTwice() {
-        TestActvity testActvity = new TestActvity();
-        yiBus.register(testActvity,String.class);
-        yiBus.register(testActvity,String.class);
+    @Test
+    public void testRegister3() throws Exception {
+
     }
 
-    public void testUnregister(){
-        TestActvity testActvity = new TestActvity();
-        String event = "hello";
-        yiBus.register(testActvity,String.class);
-        yiBus.post(event);
-        assertEquals(event,testActvity.lastStringEvent);
-        yiBus.unregister(testActvity,String.class);
-        yiBus.post(event);
+    @Test
+    public void testRegisterForMainThread() throws Exception {
+
     }
 
-    static class TestActvity extends Activity {
-        public String lastStringEvent;
+    @Test
+    public void testUnregister() throws Exception {
 
-        public void onEvent(String event) {
-            lastStringEvent = event;
-        }
     }
 
+    @Test
+    public void testUnregister1() throws Exception {
+
+    }
+
+    @Test
+    public void testPost() throws Exception {
+
+    }
+
+    @Test
+    public void testPostToSubscribtion() throws Exception {
+
+    }
 }
